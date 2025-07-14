@@ -1,0 +1,15 @@
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\bin\Debug\net9.0\PersonalFinance.Application.deps.json
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\bin\Debug\net9.0\PersonalFinance.Application.dll
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\bin\Debug\net9.0\PersonalFinance.Application.pdb
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\bin\Debug\net9.0\PersonalFinance.Domain.dll
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\bin\Debug\net9.0\PersonalFinance.Domain.pdb
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\obj\Debug\net9.0\PersonalFinance.Application.csproj.AssemblyReference.cache
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\obj\Debug\net9.0\PersonalFinance.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\obj\Debug\net9.0\PersonalFinance.Application.AssemblyInfoInputs.cache
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\obj\Debug\net9.0\PersonalFinance.Application.AssemblyInfo.cs
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\obj\Debug\net9.0\PersonalFinance.Application.csproj.CoreCompileInputs.cache
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\obj\Debug\net9.0\Personal.75513863.Up2Date
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\obj\Debug\net9.0\PersonalFinance.Application.dll
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\obj\Debug\net9.0\refint\PersonalFinance.Application.dll
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\obj\Debug\net9.0\PersonalFinance.Application.pdb
+C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Application\obj\Debug\net9.0\ref\PersonalFinance.Application.dll
