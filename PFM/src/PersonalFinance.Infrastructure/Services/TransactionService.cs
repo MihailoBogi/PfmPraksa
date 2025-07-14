@@ -121,5 +121,23 @@ namespace PersonalFinance.Infrastructure.Services
                 Items = items
             };
         }
+        public async Task CategorizeAsync(int transactionId, string catCode)
+        {
+            var tx = await _db.Transactions.FindAsync(transactionId)
+             ?? throw new BusinessException(
+                    "transaction-not-found",
+                    "Transaction not found",
+                    $"Transaction with ID {transactionId} does not exist");
+
+            var cat = await _db.Categories.FindAsync(catCode)
+                      ?? throw new BusinessException(
+                             "provided-category-does-not-exist",
+                             "Category not found",
+                             $"Category with code '{catCode}' does not exist");
+
+            tx.Categorize(catCode);      
+                                          
+            await _db.SaveChangesAsync();
+        }
     }
 }

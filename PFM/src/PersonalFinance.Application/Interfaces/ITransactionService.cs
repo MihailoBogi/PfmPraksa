@@ -8,5 +8,6 @@ namespace PersonalFinance.Application.Interfaces
     public interface ITransactionService
     {
         Task<PagedResult<TransactionDto>> GetPagedAsync(TransactionQuery query);
+        Task CategorizeAsync(int transactionId, string catCode);
     }
 }

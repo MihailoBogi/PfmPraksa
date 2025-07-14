@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MoEoQf2sJZY=",
+  "dgSpecHash": "ILvpPaUa7tE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\mbogd\\Desktop\\praksa\\PFM\\src\\PersonalFinance.Infrastructure\\PersonalFinance.Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.Infrastructure\\PersonalFinance.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mbogd\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\mbogd\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

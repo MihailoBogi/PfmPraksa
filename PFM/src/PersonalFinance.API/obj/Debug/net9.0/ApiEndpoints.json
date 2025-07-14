@@ -87,6 +87,51 @@
   },
   {
     "ContainingType": "PersonalFinance.API.Controllers.TransactionsController",
+    "Method": "Categorize",
+    "RelativePath": "transactions/{id}/categorize",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "cmd",
+        "Type": "PersonalFinance.Application.Contracts.TransactionCategorizeCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "PersonalFinance.Application.Common.ValidationErrorResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 440
+      }
+    ]
+  },
+  {
+    "ContainingType": "PersonalFinance.API.Controllers.TransactionsController",
     "Method": "Import",
     "RelativePath": "transactions/import",
     "HttpMethod": "POST",

@@ -9,3 +9,15 @@ C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Domain\obj\Debug\net9.0\Pe
 C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Domain\obj\Debug\net9.0\refint\PersonalFinance.Domain.dll
 C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Domain\obj\Debug\net9.0\PersonalFinance.Domain.pdb
 C:\Users\mbogd\Desktop\praksa\PFM\src\PersonalFinance.Domain\obj\Debug\net9.0\ref\PersonalFinance.Domain.dll
+C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.Domain\bin\Debug\net9.0\PersonalFinance.Domain.deps.json
+C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.Domain\bin\Debug\net9.0\PersonalFinance.Domain.dll
+C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.Domain\bin\Debug\net9.0\PersonalFinance.Domain.pdb
+C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.Domain\obj\Debug\net9.0\PersonalFinance.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.Domain\obj\Debug\net9.0\PersonalFinance.Domain.AssemblyInfoInputs.cache
+C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.Domain\obj\Debug\net9.0\PersonalFinance.Domain.AssemblyInfo.cs
+C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.Domain\obj\Debug\net9.0\PersonalFinance.Domain.csproj.CoreCompileInputs.cache
+C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.Domain\obj\Debug\net9.0\PersonalFinance.Domain.sourcelink.json
+C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.Domain\obj\Debug\net9.0\PersonalFinance.Domain.dll
+C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.Domain\obj\Debug\net9.0\refint\PersonalFinance.Domain.dll
+C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.Domain\obj\Debug\net9.0\PersonalFinance.Domain.pdb
+C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.Domain\obj\Debug\net9.0\ref\PersonalFinance.Domain.dll

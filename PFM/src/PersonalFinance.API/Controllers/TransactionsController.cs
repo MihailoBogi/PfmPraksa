@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using PersonalFinance.API.Common;
 using PersonalFinance.Application.Common;
 using PersonalFinance.Application.Common.Pagination;
@@ -63,5 +64,39 @@ namespace PersonalFinance.API.Controllers
             var result = await _service.GetPagedAsync(query);
             return Ok(result);
         }
+
+        [HttpPost("{id}/categorize")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
+        [ProducesResponseType(440)]
+        public async Task<IActionResult> Categorize([FromRoute] int id, [FromBody] TransactionCategorizeCommand cmd)
+        {
+            if (!ModelState.IsValid) return BadRequest(new ValidationErrorResponse { 
+                Errors = ModelStateErrors(ModelState) });
+
+            try
+            {
+                await _service.CategorizeAsync(id, cmd.CatCode);
+                return Ok();
+            }
+            catch(BusinessException ex) when (ex.Problem == "transaction-not-found")
+            {
+                return NotFound();
+            }
+            catch (BusinessException ex) when (ex.Problem == "provided-category-does-not-exist")
+            {
+                return BadRequest(new { x_asee_problems = new[] { ex.Problem } });
+            }
+        }
+        private static List<ValidationError> ModelStateErrors(ModelStateDictionary ms) =>
+        ms.Where(kvp => kvp.Value.Errors.Any())
+          .SelectMany(kvp => kvp.Value.Errors
+            .Select(err => new ValidationError
+            {
+                Tag = kvp.Key,
+                Error = ValidationErrorCode.InvalidFormat,
+                Message = err.ErrorMessage
+            }))
+          .ToList();
     }
 }

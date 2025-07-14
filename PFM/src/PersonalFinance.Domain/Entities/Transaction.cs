@@ -46,7 +46,13 @@ namespace PersonalFinance.Domain.Entities
             Kind = kind;
             CatCode = catCode;
         }
+
+        public void Categorize(string? catCode)
+        {
+            CatCode = string.IsNullOrWhiteSpace(catCode) ? null : catCode;
+        }
     }
+
     public enum TransactionDirection
     {
         [EnumMember(Value = "d")] Debit = 0,
