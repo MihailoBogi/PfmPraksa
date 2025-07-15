@@ -46,6 +46,33 @@ namespace PersonalFinance.Infrastructure.Migrations
                     b.ToTable("Categories", (string)null);
                 });
 
+            modelBuilder.Entity("PersonalFinance.Domain.Entities.Split", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("CatCode")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(5)");
+
+                    b.Property<int>("TransactionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TransactionId");
+
+                    b.ToTable("Splits", (string)null);
+                });
+
             modelBuilder.Entity("PersonalFinance.Domain.Entities.Transaction", b =>
                 {
                     b.Property<int>("Id")
@@ -107,6 +134,17 @@ namespace PersonalFinance.Infrastructure.Migrations
                     b.Navigation("Parent");
                 });
 
+            modelBuilder.Entity("PersonalFinance.Domain.Entities.Split", b =>
+                {
+                    b.HasOne("PersonalFinance.Domain.Entities.Transaction", "Transaction")
+                        .WithMany("Splits")
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Transaction");
+                });
+
             modelBuilder.Entity("PersonalFinance.Domain.Entities.Transaction", b =>
                 {
                     b.HasOne("PersonalFinance.Domain.Entities.Category", "Category")
@@ -122,6 +160,11 @@ namespace PersonalFinance.Infrastructure.Migrations
                     b.Navigation("Children");
 
                     b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("PersonalFinance.Domain.Entities.Transaction", b =>
+                {
+                    b.Navigation("Splits");
                 });
 #pragma warning restore 612, 618
         }

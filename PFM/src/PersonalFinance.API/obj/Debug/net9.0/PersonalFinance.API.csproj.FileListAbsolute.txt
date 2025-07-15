@@ -342,10 +342,10 @@ C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.API\obj\Debug\
 C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.API\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.API\obj\Debug\net9.0\staticwebassets.development.json
 C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.API\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.API\obj\Debug\net9.0\Personal.E77B035E.Up2Date
 C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.API\obj\Debug\net9.0\PersonalFinance.API.dll
 C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.API\obj\Debug\net9.0\refint\PersonalFinance.API.dll
 C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.API\obj\Debug\net9.0\PersonalFinance.API.pdb
 C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.API\obj\Debug\net9.0\PersonalFinance.API.genruntimeconfig.cache
 C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.API\obj\Debug\net9.0\ref\PersonalFinance.API.dll
+C:\Users\mbogd\Documents\GitHub\PfmPraksa\PFM\src\PersonalFinance.API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

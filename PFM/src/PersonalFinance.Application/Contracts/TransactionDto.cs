@@ -33,5 +33,6 @@ namespace PersonalFinance.Application.Contracts
 
         [JsonPropertyName("catcode")]
         public string? CatCode { get; set; }
+        public List<SingleCategorySplitDto> Splits { get; set; } = new();
     }
 }

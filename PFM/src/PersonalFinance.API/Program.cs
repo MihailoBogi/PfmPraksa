@@ -10,16 +10,14 @@ using PersonalFinance.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1) DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 2) Registracija CSV import servisa
 builder.Services.AddScoped<ITransactionImporter, TransactionImporter>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ICategoryImporter, CategoryImporter>();
+builder.Services.AddScoped<ISplitService, SplitService>();
 
-// 3) Controllers + OpenAPI/Swagger
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<CsvValidationFilter>();
@@ -57,14 +55,13 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 var app = builder.Build();
 
-// 4) Middleware
+// middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "PersonalFinance API v1");
-        // ako želiš Swagger UI na root-u aplikacije, otkomentari:
         // c.RoutePrefix = string.Empty;
     });
 }

@@ -1,30 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using PersonalFinance.Application.Common;
 
-namespace PersonalFinance.API.Common.Filters
+public class BusinessExceptionFilter : IExceptionFilter
 {
-    public class BusinessExceptionFilter : IExceptionFilter
+    public void OnException(ExceptionContext context)
     {
-        public void OnException(ExceptionContext context)
+        if (context.Exception is BusinessException ex)
         {
-            if (context.Exception is BusinessException be)
+            // 1) HTTP status 440 (može i 422 ili neki drugi, ali OAS3 hint-uje custom)
+            context.HttpContext.Response.StatusCode = 440;
+
+            // 2) Header x-asee sa listom problema
+            //    Ovde šaljemo niz s jednim elementom; ako je više problema, možeš i za svaki
+            var headerProblems = new[]
             {
-                context.HttpContext.Response.Headers["x-asee-problems"] = new[] { be.Problem };
+                new {
+                    L = ex.Problem,
+                    C = context.HttpContext.Request.Path.Value?.Split('/').Last(), // ili neki drugi c
+                    M = ex.Message
+                }
+            };
+            var headerJson = JsonSerializer.Serialize(headerProblems);
+            context.HttpContext.Response.Headers["x-asee"] = headerJson;
 
-                var body = new BusinessErrorResponse
-                {
-                    Problem = be.Problem,
-                    Message = be.Message,
-                    Details = be.Details
-                };
+            // 3) Telo odgovora sa problem, message, details
+            var body = new BusinessProblemResponse
+            {
+                Problem = ex.Problem,
+                Message = ex.Message,
+                Details = ex.Details
+            };
 
-                context.Result = new ObjectResult(body)
-                {
-                    StatusCode = 440
-                };
-                context.ExceptionHandled = true;
-            }
+            context.Result = new JsonResult(body)
+            {
+                StatusCode = 440,
+                ContentType = "application/json"
+            };
+
+            context.ExceptionHandled = true;
         }
     }
 }

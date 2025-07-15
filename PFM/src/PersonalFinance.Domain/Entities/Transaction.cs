@@ -51,6 +51,7 @@ namespace PersonalFinance.Domain.Entities
         {
             CatCode = string.IsNullOrWhiteSpace(catCode) ? null : catCode;
         }
+        public IList<Split> Splits { get; } = new List<Split>();
     }
 
     public enum TransactionDirection

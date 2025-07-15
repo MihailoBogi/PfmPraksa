@@ -13,6 +13,7 @@ namespace PersonalFinance.Infrastructure.Data
 
         public DbSet<Transaction> Transactions { get; set; } = default!;
         public DbSet<Category> Categories { get; set; } = default!;
+        public DbSet<Split> Splits { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -126,6 +127,19 @@ namespace PersonalFinance.Infrastructure.Data
                   .HasForeignKey(c => c.ParentCode)
                   .OnDelete(DeleteBehavior.Restrict);
             });
+            modelBuilder.Entity<Split>(b =>
+            {
+                b.ToTable("Splits");
+                b.HasKey(s => s.Id);
+                b.Property(s => s.CatCode).HasMaxLength(5).IsUnicode(false).IsRequired();
+                b.Property(s => s.Amount).HasColumnType("decimal(18,2)").IsRequired();
+
+                b.HasOne(s => s.Transaction)
+                 .WithMany(t => t.Splits)
+                 .HasForeignKey(s => s.TransactionId)
+                 .OnDelete(DeleteBehavior.Cascade);
+            });
+
         }
 
     }

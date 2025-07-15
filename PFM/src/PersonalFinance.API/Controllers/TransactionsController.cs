@@ -17,11 +17,13 @@ namespace PersonalFinance.API.Controllers
     {
         private readonly ITransactionImporter _importer;
         private readonly ITransactionService _service;
+        private readonly ISplitService _splitService;
 
-        public TransactionsController(ITransactionImporter importer, ITransactionService service)
+        public TransactionsController(ITransactionImporter importer, ITransactionService service, ISplitService splitService)
         {
             _importer = importer;
             _service = service;
+            _splitService = splitService;
         }
 
         [HttpPost("import")]
@@ -88,6 +90,30 @@ namespace PersonalFinance.API.Controllers
                 return BadRequest(new { x_asee_problems = new[] { ex.Problem } });
             }
         }
+            [HttpPost("{id}/split")]
+            [ProducesResponseType(200)]
+            [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
+            [ProducesResponseType(440)]
+        public async Task<IActionResult> Split([FromRoute] int id, [FromBody] SplitTransactionCommand cmd)
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(new ValidationErrorResponse
+                    {
+                        Errors = ModelStateErrors(ModelState)
+                    });
+
+                try
+                {
+                    await _splitService.SplitAsync(id, cmd.Splits);
+                    return Ok();
+                }
+                catch (BusinessException ex) when (
+                     ex.Problem == "provided-category-does-not-exist" ||
+                     ex.Problem == "split-amount-over-transaction-amount")
+                {
+                return StatusCode(440, new { x_asee_problems = new[] { ex.Problem } });
+                }
+            }
         private static List<ValidationError> ModelStateErrors(ModelStateDictionary ms) =>
         ms.Where(kvp => kvp.Value.Errors.Any())
           .SelectMany(kvp => kvp.Value.Errors
@@ -97,8 +123,6 @@ namespace PersonalFinance.API.Controllers
                 Error = ValidationErrorCode.InvalidFormat,
                 Message = err.ErrorMessage
             }))
-          .ToList();
-
-        
+          .ToList();      
     }
 }

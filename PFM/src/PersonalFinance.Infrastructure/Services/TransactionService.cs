@@ -103,7 +103,12 @@ namespace PersonalFinance.Infrastructure.Services
                     TransactionKind.Salary => "sal",
                     _ => string.Empty
                 },
-                CatCode = t.CatCode
+                CatCode = t.CatCode,
+                Splits = t.Splits.Select(s => new SingleCategorySplitDto
+                {
+                    CatCode = s.CatCode,
+                    Amount = s.Amount
+                }).ToList()
             }).ToList();
 
             // Vrati PagedResult preko object‐initializer
