@@ -40,6 +40,56 @@
     ]
   },
   {
+    "ContainingType": "PersonalFinance.API.Controllers.SpendingAnalyticsController",
+    "Method": "Get",
+    "RelativePath": "api/SpendingAnalytics",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "catcode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "start-date",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "end-date",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "direction",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "PersonalFinance.Application.Contracts.SpendingByCategoryResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "PersonalFinance.Application.Common.ValidationErrorResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
     "ContainingType": "PersonalFinance.API.Controllers.TransactionsController",
     "Method": "Get",
     "RelativePath": "transactions",

@@ -10,7 +10,6 @@ namespace PersonalFinance.Infrastructure.Data
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
-            // Pretpostavljamo da je API projekat u ../PersonalFinance.API
             var basePath = Path.Combine(Directory.GetCurrentDirectory(), "../PersonalFinance.API");
             var config = new ConfigurationBuilder()
                 .SetBasePath(basePath)

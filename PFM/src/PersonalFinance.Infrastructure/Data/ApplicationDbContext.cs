@@ -120,7 +120,7 @@ namespace PersonalFinance.Infrastructure.Data
                       .HasMaxLength(5)
                       .IsUnicode(false);
 
-                // Self-reference: ParentCode -> Code
+                // ParentCode -> Code
                 entity.HasOne(c => c.Parent)
                   .WithMany(c => c.Children)
                   .HasForeignKey(c => c.ParentCode)

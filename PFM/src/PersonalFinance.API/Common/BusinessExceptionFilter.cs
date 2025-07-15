@@ -10,10 +10,8 @@ namespace PersonalFinance.API.Common.Filters
         {
             if (context.Exception is BusinessException be)
             {
-                // add the x-asee-problems header
                 context.HttpContext.Response.Headers["x-asee-problems"] = new[] { be.Problem };
 
-                // prepare the response body
                 var body = new BusinessErrorResponse
                 {
                     Problem = be.Problem,

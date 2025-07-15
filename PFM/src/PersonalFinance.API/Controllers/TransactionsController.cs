@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Identity.Client;
 using PersonalFinance.API.Common;
 using PersonalFinance.Application.Common;
 using PersonalFinance.Application.Common.Pagination;
@@ -30,7 +31,6 @@ namespace PersonalFinance.API.Controllers
         [ProducesResponseType(typeof(BusinessErrorResponse), 440)]
         public async Task<IActionResult> Import(IFormFile file)
         {
-            // poslovno pravilo: fajl je obavezan
             if (file == null || file.Length == 0)
                 throw new BusinessException(
                     problem: "file-missing",
@@ -98,5 +98,7 @@ namespace PersonalFinance.API.Controllers
                 Message = err.ErrorMessage
             }))
           .ToList();
+
+        
     }
 }

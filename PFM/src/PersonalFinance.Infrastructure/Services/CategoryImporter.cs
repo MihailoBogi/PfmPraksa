@@ -91,7 +91,6 @@ namespace PersonalFinance.Infrastructure.Services
             if (errors.Any())
                 throw new CsvValidationException(errors);
 
-            // Fetch existing categories by code
             var existing = await _db.Categories
                 .ToDictionaryAsync(c => c.Code, c => c);
 
@@ -99,7 +98,6 @@ namespace PersonalFinance.Infrastructure.Services
             {
                 if (existing.TryGetValue(d.Code, out var cat))
                 {
-                    // update name/parent
                     cat.Update(d.Name, d.ParentCode);
                 }
                 else

@@ -19,16 +19,14 @@ namespace PersonalFinance.Infrastructure.Services
 
         public async Task<PagedResult<TransactionDto>> GetPagedAsync(TransactionQuery q)
         {
-            // 1) Base query
             var baseQ = _db.Transactions.AsNoTracking().AsQueryable();
 
-            // 2) Period filter
             if (q.StartDate.HasValue)
                 baseQ = baseQ.Where(t => t.Date >= q.StartDate.Value.ToDateTime(TimeOnly.MinValue));
             if (q.EndDate.HasValue)
                 baseQ = baseQ.Where(t => t.Date <= q.EndDate.Value.ToDateTime(TimeOnly.MaxValue));
 
-            // 3) Kind filter (parsiraj stringove u enum, pa filter)
+            //  string u enum pa filter
             if (q.Kinds?.Any() == true)
             {
                 var allowedKinds = q.Kinds
@@ -59,10 +57,8 @@ namespace PersonalFinance.Infrastructure.Services
                 baseQ = baseQ.Where(t => allowedKinds.Contains(t.Kind));
             }
 
-            // 4) Total count (pre‐paging)
-            var total = await baseQ.CountAsync();
+            var total = await baseQ.CountAsync();//total count za paging
 
-            // 5) Sorting
             var desc = string.Equals(q.SortOrder, "desc", StringComparison.OrdinalIgnoreCase);
             baseQ = (q.SortBy ?? "date").Trim().ToLowerInvariant() switch
             {
@@ -73,14 +69,12 @@ namespace PersonalFinance.Infrastructure.Services
                 _ => desc ? baseQ.OrderByDescending(t => t.Date) : baseQ.OrderBy(t => t.Date),
             };
 
-            // 6) Paging
             var skip = (q.Page - 1) * q.PageSize;
             var pageEntities = await baseQ
                 .Skip(skip)
                 .Take(q.PageSize)
                 .ToListAsync();
 
-            // 7) Mapiranje u DTO
             var items = pageEntities.Select(t => new TransactionDto
             {
                 Id = t.Id.ToString(),
@@ -112,7 +106,7 @@ namespace PersonalFinance.Infrastructure.Services
                 CatCode = t.CatCode
             }).ToList();
 
-            // 8) Vrati PagedResult preko object‐initializer
+            // Vrati PagedResult preko object‐initializer
             return new PagedResult<TransactionDto>
             {
                 TotalCount = total,
@@ -138,6 +132,46 @@ namespace PersonalFinance.Infrastructure.Services
             tx.Categorize(catCode);      
                                           
             await _db.SaveChangesAsync();
+        }
+        public async Task<SpendingByCategoryResponse> GetSpendingsByCategoryAsync(SpendingAnalyticsQuery q)
+        {
+            var txs = _db.Transactions.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(q.CategoryCode))
+                txs = txs.Where(t => t.CatCode == q.CategoryCode
+                                  || t.CatCode!.StartsWith(q.CategoryCode + ":"));
+
+            if (q.StartDate.HasValue)
+                txs = txs.Where(t => t.Date >= q.StartDate.Value.ToDateTime(TimeOnly.MinValue));
+
+            if (q.EndDate.HasValue)
+                txs = txs.Where(t => t.Date <= q.EndDate.Value.ToDateTime(TimeOnly.MaxValue));
+
+            if (q.Direction == "d" || q.Direction == "c")
+            {
+                var dirEnum = q.Direction == "d"
+                    ? TransactionDirection.Debit
+                    : TransactionDirection.Credit;
+
+                txs = txs.Where(t => t.Direction == dirEnum);
+            }
+
+            var groups = await txs
+            .GroupBy(t => q.CategoryCode == null
+                ? _db.Categories
+                    .Where(c => c.Code == t.CatCode)
+                    .Select(c => c.ParentCode ?? c.Code)
+                    .FirstOrDefault()!
+                : t.CatCode!)
+            .Select(g => new SpendingGroupDto
+            {
+                CatCode = g.Key!,
+                Amount = g.Sum(t => t.Amount),
+                Count = g.Count()
+            })
+            .ToListAsync();
+
+            return new SpendingByCategoryResponse { Groups = groups };
         }
     }
 }

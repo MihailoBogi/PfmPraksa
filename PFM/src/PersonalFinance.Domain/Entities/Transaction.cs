@@ -9,7 +9,7 @@ namespace PersonalFinance.Domain.Entities
 
         public string BeneficiaryName { get; private set; } = string.Empty;
         public DateTime Date { get; private set; }
-        public TransactionDirection Direction { get; private set; }
+        public TransactionDirection Direction { get; set; }
         public decimal Amount { get; private set; }
         public string Description { get; private set; } = default!;
         public string Currency { get; private set; } = default!;
@@ -21,7 +21,7 @@ namespace PersonalFinance.Domain.Entities
 
         private Transaction() { }
 
-        // Javni konstruktor koji mapira CSV na entitet
+        // konstruktor koji mapira CSV na entitet
         public Transaction(
             int id,
             string? beneficiaryName,
