@@ -87,7 +87,10 @@ namespace PersonalFinance.Infrastructure.Data
                       .HasMaxLength(3)
                       .IsRequired();
 
-                entity.Property(t => t.Mcc);
+                entity.Property(t => t.Mcc)
+                     .HasColumnName("Mcc")
+                     .HasConversion<int?>()
+                     .IsRequired(false);
 
                 entity.Property(t => t.Kind)
                       .HasConversion(kindConverter)
@@ -131,7 +134,7 @@ namespace PersonalFinance.Infrastructure.Data
             {
                 b.ToTable("Splits");
                 b.HasKey(s => s.Id);
-                b.Property(s => s.CatCode).HasMaxLength(5).IsUnicode(false).IsRequired();
+                b.Property(s => s.CatCode).HasMaxLength(5).IsRequired();
                 b.Property(s => s.Amount).HasColumnType("decimal(18,2)").IsRequired();
 
                 b.HasOne(s => s.Transaction)

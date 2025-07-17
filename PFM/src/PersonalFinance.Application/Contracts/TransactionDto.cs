@@ -26,7 +26,7 @@ namespace PersonalFinance.Application.Contracts
         public string Currency { get; set; } = default!;
 
         [JsonPropertyName("mcc")]
-        public string? Mcc { get; set; }
+        public int? Mcc { get; set; }
 
         [JsonPropertyName("kind")]
         public string Kind { get; set; } = default!;

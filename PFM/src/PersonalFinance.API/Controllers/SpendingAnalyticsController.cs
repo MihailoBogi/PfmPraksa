@@ -25,6 +25,23 @@ namespace PersonalFinance.API.Controllers
                                          [FromQuery(Name = "end-date")] DateTime? end,
                                          [FromQuery(Name = "direction")] string? dir)
         {
+            if (!string.IsNullOrWhiteSpace(dir))
+            {
+                var d = dir.Trim().ToLowerInvariant();
+                if (d != "d" && d != "c" && d != "debit" && d != "credit")
+                {
+                    ModelState.AddModelError(
+                        "direction",
+                        "Allowed values for direction are: d, c, debit or credit.");
+                }
+            }
+            if (start.HasValue && end.HasValue && start > end)
+            {
+                ModelState.AddModelError(
+                    "date-range",
+                    "start-date must be less than or equal to end-date.");
+            }
+
             if (!ModelState.IsValid)
                 return BadRequest(new ValidationErrorResponse { Errors = ModelStateErrors(ModelState) });
 

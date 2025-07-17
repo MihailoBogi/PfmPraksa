@@ -59,7 +59,6 @@ namespace PersonalFinance.Infrastructure.Services
                     continue;
                 }
 
-                // --- 2) DATE kao string, pa TryParseExact
                 var dateRaw = csv.GetField("date");
                 if (!DateTime.TryParseExact(
                         dateRaw,
@@ -77,7 +76,6 @@ namespace PersonalFinance.Infrastructure.Services
                     continue;
                 }
 
-                // --- 3) DIRECTION ('d' ili 'c')
                 var dirRaw = csv.GetField("direction")?.Trim();
                 if (!TryMapDirection(dirRaw, out var direction))
                 {
@@ -90,7 +88,6 @@ namespace PersonalFinance.Infrastructure.Services
                     continue;
                 }
 
-                // --- 4) AMOUNT kao string, pa TryParse u decimal
                 var amountRaw = csv.GetField("amount");
                 if (!decimal.TryParse(
                         amountRaw,
@@ -107,7 +104,6 @@ namespace PersonalFinance.Infrastructure.Services
                     continue;
                 }
 
-                // --- 5) CURRENCY (required string)
                 var currency = csv.GetField("currency");
                 if (string.IsNullOrWhiteSpace(currency))
                 {
@@ -120,7 +116,6 @@ namespace PersonalFinance.Infrastructure.Services
                     continue;
                 }
 
-                // --- 6) KIND ('dep','wdw','pmt',…)
                 var kindRaw = csv.GetField("kind")?.Trim();
                 if (!TryMapKind(kindRaw, out var kind))
                 {
@@ -133,11 +128,9 @@ namespace PersonalFinance.Infrastructure.Services
                     continue;
                 }
 
-                // --- 7) OPCIONALNA polja:
                 var beneficiary = csv.GetField("beneficiary-name")?.Trim() ?? string.Empty;
                 var description = csv.GetField("description")?.Trim() ?? string.Empty;
 
-                // --- 8) MCC kao string pa TryParse u int?
                 int? mcc = null;
                 var mccRaw = csv.GetField("mcc");
                 if (!string.IsNullOrWhiteSpace(mccRaw))
@@ -153,11 +146,9 @@ namespace PersonalFinance.Infrastructure.Services
                         });
                 }
 
-                // Ako nam je MCC parsiranje bacilo grešku, skip ove linije
                 if (errors.Any(e => e.Tag == "mcc" && e.Message.Contains($"Red {row}:")))
                     continue;
 
-                // --- 9) Sastavi entitet i ubaci
                 validEntities.Add(new Transaction(
                     id,
                     beneficiary,
@@ -171,12 +162,9 @@ namespace PersonalFinance.Infrastructure.Services
                 ));
             }
 
-            // ----- Kraj loop-a:  
-            // 10) Ako ima grešaka -> baci 400
             if (errors.Any())
                 throw new CsvValidationException(errors);
 
-            // 11) Preskoči duplikate po PK
             var existingIds = await _db.Transactions
                 .AsNoTracking()
                 .Select(t => t.Id)
@@ -193,7 +181,6 @@ namespace PersonalFinance.Infrastructure.Services
                     "Sve transakcije iz CSV fajla su već importovane."
                 );
 
-            // 12) Snimi nove
             await _db.Transactions.AddRangeAsync(toAdd);
             await _db.SaveChangesAsync();
         }

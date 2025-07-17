@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CsvHelper.Configuration.Attributes;
+using Microsoft.EntityFrameworkCore;
 using PersonalFinance.Application.Common;
 using PersonalFinance.Application.Common.Pagination;
 using PersonalFinance.Application.Contracts;
@@ -84,7 +85,9 @@ namespace PersonalFinance.Infrastructure.Services
                 Amount = t.Amount.ToString("F2"),
                 Description = t.Description,
                 Currency = t.Currency,
-                Mcc = t.Mcc?.ToString(),
+                Mcc = t.Mcc.HasValue
+                ? (int?)t.Mcc.Value
+                : null,
                 Kind = t.Kind switch
                 {
                     TransactionKind.Deposit => "dep",
@@ -152,11 +155,14 @@ namespace PersonalFinance.Infrastructure.Services
             if (q.EndDate.HasValue)
                 txs = txs.Where(t => t.Date <= q.EndDate.Value.ToDateTime(TimeOnly.MaxValue));
 
-            if (q.Direction == "d" || q.Direction == "c")
+            if (q.Direction.ToLower() == "d" || q.Direction.ToLower() == "c" 
+                || q.Direction.ToLower() == "debit" || q.Direction.ToLower() == "credit")
             {
-                var dirEnum = q.Direction == "d"
-                    ? TransactionDirection.Debit
-                    : TransactionDirection.Credit;
+                var dirEnum = TransactionDirection.Debit;
+                if (q.Direction.ToLower() == "d" || q.Direction.ToLower() == "debit")
+                    dirEnum = TransactionDirection.Debit;
+                else
+                    dirEnum = TransactionDirection.Credit;
 
                 txs = txs.Where(t => t.Direction == dirEnum);
             }
@@ -177,6 +183,19 @@ namespace PersonalFinance.Infrastructure.Services
             .ToListAsync();
 
             return new SpendingByCategoryResponse { Groups = groups };
+        }
+        public async Task ClaimAsync(int transactionId, string userName)
+        {
+            var tx = await _db.Transactions.FindAsync(transactionId)
+            ?? throw new BusinessException(
+                  "transaction-not-found",
+                  "Transaction not found",
+                  $"Transaction {transactionId} does not exist");
+
+            throw new BusinessException(
+                "task-already-claimed",
+                "Task already claimed",
+                $"User {userName} has claimed the task");
         }
     }
 }

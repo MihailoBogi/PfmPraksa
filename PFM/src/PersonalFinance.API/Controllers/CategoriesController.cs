@@ -17,6 +17,7 @@ namespace PersonalFinance.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BusinessErrorResponse), 440)]
+        [ProducesResponseType(typeof(BusinessProblemResponse), 409)]
         public async Task<IActionResult> Import(IFormFile file)
         {
             if (file == null || file.Length == 0)

@@ -9,36 +9,38 @@ public class BusinessExceptionFilter : IExceptionFilter
     {
         if (context.Exception is BusinessException ex)
         {
-            // 1) HTTP status 440 (može i 422 ili neki drugi, ali OAS3 hint-uje custom)
-            context.HttpContext.Response.StatusCode = 440;
-
-            // 2) Header x-asee sa listom problema
-            //    Ovde šaljemo niz s jednim elementom; ako je više problema, možeš i za svaki
-            var headerProblems = new[]
-            {
-                new {
-                    L = ex.Problem,
-                    C = context.HttpContext.Request.Path.Value?.Split('/').Last(), // ili neki drugi c
-                    M = ex.Message
-                }
-            };
-            var headerJson = JsonSerializer.Serialize(headerProblems);
-            context.HttpContext.Response.Headers["x-asee"] = headerJson;
-
-            // 3) Telo odgovora sa problem, message, details
-            var body = new BusinessProblemResponse
+            var problem = new BusinessProblemResponse
             {
                 Problem = ex.Problem,
                 Message = ex.Message,
-                Details = ex.Details
+                Details = ex.Details ?? string.Empty
             };
-
-            context.Result = new JsonResult(body)
+            switch (ex.Problem)
             {
-                StatusCode = 440,
-                ContentType = "application/json"
-            };
+                case "transaction-not-found":
+                    context.Result = new NotFoundObjectResult(problem);
+                    break;
 
+                case "provided-category-does-not-exist":
+                case "split-amount-over-transaction-amount":
+                    context.HttpContext.Response.Headers["x-asee-problems"] =
+                        JsonSerializer.Serialize(new[] { ex.Problem });
+                    context.Result = new ObjectResult(problem) { StatusCode = 440 };
+                    break;
+                case "task-already-claimed":
+                    context.HttpContext.Response.Headers["x-asee-problems"] =
+                        JsonSerializer.Serialize(new[] { ex.Problem });
+                    context.Result = new ObjectResult(problem)
+                    {
+                        StatusCode = StatusCodes.Status409Conflict
+                    }; break;
+                default:
+                    context.HttpContext.Response.Headers["x-asee-problems"] =
+                        JsonSerializer.Serialize(new[] { ex.Problem });
+                    context.Result = new ObjectResult(problem) { StatusCode = 400 };
+                    break;
+
+            }
             context.ExceptionHandled = true;
         }
     }

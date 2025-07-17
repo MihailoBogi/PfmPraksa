@@ -36,6 +36,15 @@
           "text/json"
         ],
         "StatusCode": 440
+      },
+      {
+        "Type": "BusinessProblemResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 409
       }
     ]
   },
@@ -177,6 +186,15 @@
           "text/json"
         ],
         "StatusCode": 440
+      },
+      {
+        "Type": "BusinessProblemResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 409
       }
     ]
   },
@@ -213,6 +231,15 @@
           "text/json"
         ],
         "StatusCode": 400
+      },
+      {
+        "Type": "BusinessProblemResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 409
       },
       {
         "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
@@ -262,6 +289,15 @@
           "text/json"
         ],
         "StatusCode": 440
+      },
+      {
+        "Type": "BusinessProblemResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 409
       }
     ]
   }

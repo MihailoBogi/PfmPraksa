@@ -31,6 +31,7 @@ namespace PersonalFinance.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BusinessErrorResponse), 440)]
+        [ProducesResponseType(typeof(BusinessProblemResponse), 409)]
         public async Task<IActionResult> Import(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -71,29 +72,20 @@ namespace PersonalFinance.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
         [ProducesResponseType(440)]
+        [ProducesResponseType(typeof(BusinessProblemResponse), 409)]
         public async Task<IActionResult> Categorize([FromRoute] int id, [FromBody] TransactionCategorizeCommand cmd)
         {
             if (!ModelState.IsValid) return BadRequest(new ValidationErrorResponse { 
                 Errors = ModelStateErrors(ModelState) });
 
-            try
-            {
-                await _service.CategorizeAsync(id, cmd.CatCode);
-                return Ok();
-            }
-            catch(BusinessException ex) when (ex.Problem == "transaction-not-found")
-            {
-                return NotFound();
-            }
-            catch (BusinessException ex) when (ex.Problem == "provided-category-does-not-exist")
-            {
-                return BadRequest(new { x_asee_problems = new[] { ex.Problem } });
-            }
+            await _service.CategorizeAsync(id, cmd.CatCode);
+            return Ok();
         }
-            [HttpPost("{id}/split")]
-            [ProducesResponseType(200)]
-            [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-            [ProducesResponseType(440)]
+        [HttpPost("{id}/split")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
+        [ProducesResponseType(typeof(BusinessProblemResponse), 409)]
+        [ProducesResponseType(440)]
         public async Task<IActionResult> Split([FromRoute] int id, [FromBody] SplitTransactionCommand cmd)
             {
                 if (!ModelState.IsValid)
@@ -101,19 +93,9 @@ namespace PersonalFinance.API.Controllers
                     {
                         Errors = ModelStateErrors(ModelState)
                     });
-
-                try
-                {
-                    await _splitService.SplitAsync(id, cmd.Splits);
-                    return Ok();
-                }
-                catch (BusinessException ex) when (
-                     ex.Problem == "provided-category-does-not-exist" ||
-                     ex.Problem == "split-amount-over-transaction-amount")
-                {
-                return StatusCode(440, new { x_asee_problems = new[] { ex.Problem } });
-                }
-            }
+            await _splitService.SplitAsync(id, cmd.Splits);
+            return Ok();
+        }
         private static List<ValidationError> ModelStateErrors(ModelStateDictionary ms) =>
         ms.Where(kvp => kvp.Value.Errors.Any())
           .SelectMany(kvp => kvp.Value.Errors

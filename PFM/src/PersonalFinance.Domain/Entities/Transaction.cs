@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PersonalFinance.Domain.MccEnum;
+using System;
 using System.Runtime.Serialization;
 
 namespace PersonalFinance.Domain.Entities
@@ -13,11 +14,10 @@ namespace PersonalFinance.Domain.Entities
         public decimal Amount { get; private set; }
         public string Description { get; private set; } = default!;
         public string Currency { get; private set; } = default!;
-        public int? Mcc { get; private set; }
+        public MccCode? Mcc { get; private set; }
         public TransactionKind Kind { get; private set; }
         public string? CatCode { get; private set; }
         public Category? Category { get; private set; }
-
 
         private Transaction() { }
 
@@ -42,11 +42,12 @@ namespace PersonalFinance.Domain.Entities
             Amount = amount;
             Description = description ?? string.Empty;
             Currency = currency ?? throw new ArgumentNullException(nameof(currency));
-            Mcc = mcc;
+            Mcc = mcc.HasValue
+                ? (MccCode?)Enum.ToObject(typeof(MccCode), mcc.Value)
+                : null;
             Kind = kind;
             CatCode = catCode;
         }
-
         public void Categorize(string? catCode)
         {
             CatCode = string.IsNullOrWhiteSpace(catCode) ? null : catCode;

@@ -8,15 +8,10 @@ using System.Threading.Tasks;
 
 namespace PersonalFinance.Application.Contracts
 {
-    public class SingleCategorySplitDto
+    public class ClaimTaskCommand
     {
         [Required]
-        [JsonPropertyName("catcode")]
-        public string CatCode { get; set; } = default!;
-
-        [Required]
-        [Range(0.01, double.MaxValue)]
-        [JsonPropertyName("amount")]
-        public decimal Amount { get; set; }
+        [JsonPropertyName("userName")]
+        public string UserName { get; set; } = null!;
     }
 }

@@ -29,6 +29,20 @@ namespace PersonalFinance.Infrastructure.Services
                     "Transaction not found",
                     $"Transaction with ID {transactionId} does not exist");
 
+            //foreach (var split in splits)
+            //{
+            //    if (!await _db.Categories.AnyAsync(c => c.Code == split.CatCode))
+            //        throw new BusinessException(
+            //            "provided-category-does-not-exist",
+            //            "Category not found",
+            //            $"Category with code '{split.CatCode}' does not exist");
+
+            //    if(split.CatCode != tx.CatCode)
+            //        throw new BusinessException(
+            //            "split-category-invalid",
+            //            "Split category is invalid",
+            //            $"Category '{split.CatCode}' is not within original category '{tx.CatCode}'");
+            //}
             foreach (var split in splits)
             {
                 if (await _db.Categories.FindAsync(split.CatCode) == null)
