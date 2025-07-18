@@ -20,7 +20,7 @@ namespace PersonalFinance.Infrastructure.Services
 
         public async Task<PagedResult<TransactionDto>> GetPagedAsync(TransactionQuery q)
         {
-            var baseQ = _db.Transactions.AsNoTracking().AsQueryable();
+            var baseQ = _db.Transactions.AsNoTracking().Include(t => t.Splits).AsQueryable();
 
             if (q.StartDate.HasValue)
                 baseQ = baseQ.Where(t => t.Date >= q.StartDate.Value.ToDateTime(TimeOnly.MinValue));
@@ -69,7 +69,7 @@ namespace PersonalFinance.Infrastructure.Services
                 "id" => desc ? baseQ.OrderByDescending(t => t.Id) : baseQ.OrderBy(t => t.Id),
                 _ => desc ? baseQ.OrderByDescending(t => t.Date) : baseQ.OrderBy(t => t.Date),
             };
-
+            //ovo su main transakcije
             var skip = (q.Page - 1) * q.PageSize;
             var pageEntities = await baseQ
                 .Skip(skip)
@@ -114,7 +114,7 @@ namespace PersonalFinance.Infrastructure.Services
                 }).ToList()
             }).ToList();
 
-            // Vrati PagedResult preko object‐initializer
+            // vrati PagedResult preko object‐initializer
             return new PagedResult<TransactionDto>
             {
                 TotalCount = total,
@@ -143,44 +143,59 @@ namespace PersonalFinance.Infrastructure.Services
         }
         public async Task<SpendingByCategoryResponse> GetSpendingsByCategoryAsync(SpendingAnalyticsQuery q)
         {
-            var txs = _db.Transactions.AsQueryable();
+            var cat = string.IsNullOrWhiteSpace(q.CategoryCode)
+              ? null
+              : q.CategoryCode.Trim();
 
-            if (!string.IsNullOrWhiteSpace(q.CategoryCode))
-                txs = txs.Where(t => t.CatCode == q.CategoryCode
-                                  || t.CatCode!.StartsWith(q.CategoryCode + ":"));
+            var txs = _db.Transactions.AsNoTracking().AsQueryable();
 
+            // filter po kat i potkat
+            if (cat != null)
+            {
+                var subCats = await _db.Categories
+                                       .Where(c => c.ParentCode == cat)
+                                       .Select(c => c.Code)
+                                       .ToListAsync();
+
+                txs = txs.Where(t => t.CatCode == cat || subCats.Contains(t.CatCode!)
+                );
+            }
+
+            // filet po date
             if (q.StartDate.HasValue)
                 txs = txs.Where(t => t.Date >= q.StartDate.Value.ToDateTime(TimeOnly.MinValue));
-
             if (q.EndDate.HasValue)
                 txs = txs.Where(t => t.Date <= q.EndDate.Value.ToDateTime(TimeOnly.MaxValue));
 
-            if (q.Direction.ToLower() == "d" || q.Direction.ToLower() == "c" 
-                || q.Direction.ToLower() == "debit" || q.Direction.ToLower() == "credit")
+            // dir
+            if (!string.IsNullOrWhiteSpace(q.Direction))
             {
-                var dirEnum = TransactionDirection.Debit;
-                if (q.Direction.ToLower() == "d" || q.Direction.ToLower() == "debit")
-                    dirEnum = TransactionDirection.Debit;
-                else
-                    dirEnum = TransactionDirection.Credit;
-
+                var d = q.Direction.Trim().ToLowerInvariant();
+                if (d != "d" && d != "c" && d != "debit" && d != "credit")
+                    throw new BusinessException(
+                        "invalid-format",
+                        "Invalid direction",
+                        $"Direction '{q.Direction}' is not valid");
+                var dirEnum = (d == "d" || d == "debit")
+                            ? TransactionDirection.Debit
+                            : TransactionDirection.Credit;
                 txs = txs.Where(t => t.Direction == dirEnum);
             }
-
+            // ako nije proslednjena kategorija, grupise se po Parentu inace je t.Cat
             var groups = await txs
-            .GroupBy(t => q.CategoryCode == null
-                ? _db.Categories
-                    .Where(c => c.Code == t.CatCode)
-                    .Select(c => c.ParentCode ?? c.Code)
-                    .FirstOrDefault()!
-                : t.CatCode!)
-            .Select(g => new SpendingGroupDto
-            {
-                CatCode = g.Key!,
-                Amount = g.Sum(t => t.Amount),
-                Count = g.Count()
-            })
-            .ToListAsync();
+                .GroupBy(t => cat == null
+                    ? _db.Categories
+                         .Where(c => c.Code == t.CatCode)
+                         .Select(c => c.ParentCode ?? c.Code)
+                         .FirstOrDefault()!
+                    : t.CatCode!)
+                .Select(g => new SpendingGroupDto
+                {
+                    CatCode = g.Key!,
+                    Amount = g.Sum(t => t.Amount),
+                    Count = g.Count()
+                })
+                .ToListAsync();
 
             return new SpendingByCategoryResponse { Groups = groups };
         }

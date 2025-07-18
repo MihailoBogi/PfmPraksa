@@ -3,32 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C2036617-E5F3-4813-B8A0-438C70A5AC34}|src\\PersonalFinance.Infrastructure\\PersonalFinance.Infrastructure.csproj|c:\\users\\mbogd\\documents\\github\\pfmpraksa\\pfm\\src\\personalfinance.infrastructure\\services\\splitservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C2036617-E5F3-4813-B8A0-438C70A5AC34}|src\\PersonalFinance.Infrastructure\\PersonalFinance.Infrastructure.csproj|solutionrelative:src\\personalfinance.infrastructure\\services\\splitservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A7F1CB27-2E07-457E-BBF3-2EB9F93AAE52}|src\\PersonalFinance.API\\PersonalFinance.API.csproj|c:\\users\\mbogd\\documents\\github\\pfmpraksa\\pfm\\src\\personalfinance.api\\controllers\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A7F1CB27-2E07-457E-BBF3-2EB9F93AAE52}|src\\PersonalFinance.API\\PersonalFinance.API.csproj|solutionrelative:src\\personalfinance.api\\controllers\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A622207F-E308-4205-85BD-881256D951F2}|src\\PersonalFinance.Application\\PersonalFinance.Application.csproj|c:\\users\\mbogd\\documents\\github\\pfmpraksa\\pfm\\src\\personalfinance.application\\common\\pagination\\pagedresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A622207F-E308-4205-85BD-881256D951F2}|src\\PersonalFinance.Application\\PersonalFinance.Application.csproj|solutionrelative:src\\personalfinance.application\\common\\pagination\\pagedresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C2036617-E5F3-4813-B8A0-438C70A5AC34}|src\\PersonalFinance.Infrastructure\\PersonalFinance.Infrastructure.csproj|c:\\users\\mbogd\\documents\\github\\pfmpraksa\\pfm\\src\\personalfinance.infrastructure\\services\\transactionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C2036617-E5F3-4813-B8A0-438C70A5AC34}|src\\PersonalFinance.Infrastructure\\PersonalFinance.Infrastructure.csproj|solutionrelative:src\\personalfinance.infrastructure\\services\\transactionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A7F1CB27-2E07-457E-BBF3-2EB9F93AAE52}|src\\PersonalFinance.API\\PersonalFinance.API.csproj|c:\\users\\mbogd\\documents\\github\\pfmpraksa\\pfm\\src\\personalfinance.api\\controllers\\spendinganalyticscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A7F1CB27-2E07-457E-BBF3-2EB9F93AAE52}|src\\PersonalFinance.API\\PersonalFinance.API.csproj|solutionrelative:src\\personalfinance.api\\controllers\\spendinganalyticscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A622207F-E308-4205-85BD-881256D951F2}|src\\PersonalFinance.Application\\PersonalFinance.Application.csproj|c:\\users\\mbogd\\documents\\github\\pfmpraksa\\pfm\\src\\personalfinance.application\\contracts\\transactiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A622207F-E308-4205-85BD-881256D951F2}|src\\PersonalFinance.Application\\PersonalFinance.Application.csproj|solutionrelative:src\\personalfinance.application\\contracts\\transactiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC1B9A7D-6103-42B5-B5E5-41F9C4DDBFFF}|src\\PersonalFinance.Domain\\PersonalFinance.Domain.csproj|c:\\users\\mbogd\\documents\\github\\pfmpraksa\\pfm\\src\\personalfinance.domain\\entities\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC1B9A7D-6103-42B5-B5E5-41F9C4DDBFFF}|src\\PersonalFinance.Domain\\PersonalFinance.Domain.csproj|solutionrelative:src\\personalfinance.domain\\entities\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -43,87 +23,28 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "SplitService.cs",
-              "DocumentMoniker": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.Infrastructure\\Services\\SplitService.cs",
-              "RelativeDocumentMoniker": "src\\PersonalFinance.Infrastructure\\Services\\SplitService.cs",
-              "ToolTip": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.Infrastructure\\Services\\SplitService.cs",
-              "RelativeToolTip": "src\\PersonalFinance.Infrastructure\\Services\\SplitService.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAgwCwAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-17T19:46:00.55Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PagedResult.cs",
-              "DocumentMoniker": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.Application\\Common\\Pagination\\PagedResult.cs",
-              "RelativeDocumentMoniker": "src\\PersonalFinance.Application\\Common\\Pagination\\PagedResult.cs",
-              "ToolTip": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.Application\\Common\\Pagination\\PagedResult.cs",
-              "RelativeToolTip": "src\\PersonalFinance.Application\\Common\\Pagination\\PagedResult.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-17T17:55:54.397Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "SpendingAnalyticsController.cs",
-              "DocumentMoniker": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.API\\Controllers\\SpendingAnalyticsController.cs",
-              "RelativeDocumentMoniker": "src\\PersonalFinance.API\\Controllers\\SpendingAnalyticsController.cs",
-              "ToolTip": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.API\\Controllers\\SpendingAnalyticsController.cs",
-              "RelativeToolTip": "src\\PersonalFinance.API\\Controllers\\SpendingAnalyticsController.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAAABoAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-17T17:46:15.587Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "TransactionDto.cs",
-              "DocumentMoniker": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.Application\\Contracts\\TransactionDto.cs",
-              "RelativeDocumentMoniker": "src\\PersonalFinance.Application\\Contracts\\TransactionDto.cs",
-              "ToolTip": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.Application\\Contracts\\TransactionDto.cs",
-              "RelativeToolTip": "src\\PersonalFinance.Application\\Contracts\\TransactionDto.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAA2wBMAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-17T17:28:02.309Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "TransactionsController.cs",
-              "DocumentMoniker": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.API\\Controllers\\TransactionsController.cs",
-              "RelativeDocumentMoniker": "src\\PersonalFinance.API\\Controllers\\TransactionsController.cs",
-              "ToolTip": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.API\\Controllers\\TransactionsController.cs",
-              "RelativeToolTip": "src\\PersonalFinance.API\\Controllers\\TransactionsController.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAAAADcAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-17T16:28:59.917Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Transaction.cs",
-              "DocumentMoniker": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.Domain\\Entities\\Transaction.cs",
-              "RelativeDocumentMoniker": "src\\PersonalFinance.Domain\\Entities\\Transaction.cs",
-              "ToolTip": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.Domain\\Entities\\Transaction.cs",
-              "RelativeToolTip": "src\\PersonalFinance.Domain\\Entities\\Transaction.cs",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAiwC4AAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-17T17:18:30.422Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "TransactionService.cs",
               "DocumentMoniker": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.Infrastructure\\Services\\TransactionService.cs",
               "RelativeDocumentMoniker": "src\\PersonalFinance.Infrastructure\\Services\\TransactionService.cs",
               "ToolTip": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.Infrastructure\\Services\\TransactionService.cs",
               "RelativeToolTip": "src\\PersonalFinance.Infrastructure\\Services\\TransactionService.cs",
-              "ViewState": "AgIAAHYAAAAAAAAAAAAiwJAAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAQwEcAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-17T14:15:18.293Z"
+              "WhenOpened": "2025-07-18T20:26:16.445Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SpendingAnalyticsController.cs",
+              "DocumentMoniker": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.API\\Controllers\\SpendingAnalyticsController.cs",
+              "RelativeDocumentMoniker": "src\\PersonalFinance.API\\Controllers\\SpendingAnalyticsController.cs",
+              "ToolTip": "C:\\Users\\mbogd\\Documents\\GitHub\\PfmPraksa\\PFM\\src\\PersonalFinance.API\\Controllers\\SpendingAnalyticsController.cs",
+              "RelativeToolTip": "src\\PersonalFinance.API\\Controllers\\SpendingAnalyticsController.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAAACQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T17:46:15.587Z",
+              "EditorCaption": ""
             }
           ]
         }
