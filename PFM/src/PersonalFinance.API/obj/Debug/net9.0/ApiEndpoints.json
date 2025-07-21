@@ -254,6 +254,26 @@
   },
   {
     "ContainingType": "PersonalFinance.API.Controllers.TransactionsController",
+    "Method": "AutoCategorize",
+    "RelativePath": "transactions/auto-categorize",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "PersonalFinance.Application.Contracts.AutoCategorizationResultDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "PersonalFinance.API.Controllers.TransactionsController",
     "Method": "Import",
     "RelativePath": "transactions/import",
     "HttpMethod": "POST",

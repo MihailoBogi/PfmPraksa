@@ -1,13 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Identity.Client;
-using PersonalFinance.API.Common;
 using PersonalFinance.Application.Common;
-using PersonalFinance.Application.Common.Pagination;
 using PersonalFinance.Application.Contracts;
 using PersonalFinance.Application.Interfaces;
-using System.Threading.Tasks;
 
 namespace PersonalFinance.API.Controllers
 {
@@ -18,12 +13,14 @@ namespace PersonalFinance.API.Controllers
         private readonly ITransactionImporter _importer;
         private readonly ITransactionService _service;
         private readonly ISplitService _splitService;
+        private readonly IAutoCategorizationService _autoCategorizationService;
 
-        public TransactionsController(ITransactionImporter importer, ITransactionService service, ISplitService splitService)
+        public TransactionsController(ITransactionImporter importer, ITransactionService service, ISplitService splitService, IAutoCategorizationService autoCategorizationService)
         {
             _importer = importer;
             _service = service;
             _splitService = splitService;
+            _autoCategorizationService = autoCategorizationService;
         }
 
         [HttpPost("import")]
@@ -95,6 +92,13 @@ namespace PersonalFinance.API.Controllers
                     });
             await _splitService.SplitAsync(id, cmd.Splits);
             return Ok();
+        }
+        [HttpPost("auto-categorize")]
+        [ProducesResponseType(typeof(AutoCategorizationResultDto), 200)]
+        public async Task<IActionResult> AutoCategorize()
+        {
+            var dto = await _autoCategorizationService.AutoCategorizeAsync();
+            return Ok(dto);
         }
         private static List<ValidationError> ModelStateErrors(ModelStateDictionary ms) =>
         ms.Where(kvp => kvp.Value.Errors.Any())

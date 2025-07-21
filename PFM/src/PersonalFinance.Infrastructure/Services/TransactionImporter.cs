@@ -61,6 +61,11 @@ namespace PersonalFinance.Infrastructure.Services
 
                 var dateRaw = csv.GetField("date");
                 if (!DateTime.TryParseExact(
+                        //dateRaw,
+                        //new[] { "M/d/yyyy", "MM/dd/yyyy", "yyyy-MM-dd" },
+                        //CultureInfo.InvariantCulture,
+                        //DateTimeStyles.None,
+                        //out var date))
                         dateRaw,
                         new[] { "M/d/yyyy", "MM/dd/yyyy", "yyyy-MM-dd" },
                         CultureInfo.InvariantCulture,
@@ -148,7 +153,6 @@ namespace PersonalFinance.Infrastructure.Services
 
                 if (errors.Any(e => e.Tag == "mcc" && e.Message.Contains($"Red {row}:")))
                     continue;
-
                 validEntities.Add(new Transaction(
                     id,
                     beneficiary,

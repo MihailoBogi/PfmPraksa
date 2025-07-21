@@ -18,7 +18,11 @@ namespace PersonalFinance.Infrastructure.Data
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             var connStr = config.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseSqlServer(connStr);
+            //optionsBuilder.UseSqlServer(connStr);
+            optionsBuilder.UseNpgsql(connStr, npgsqlOptions =>
+            {
+                // npgsqlOptions.EnableRetryOnFailure();
+            });
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }

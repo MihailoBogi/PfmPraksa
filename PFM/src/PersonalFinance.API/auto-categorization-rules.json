@@ -1,0 +1,119 @@
+{
+  "Rules": [
+    {
+      "Field": "mcc",
+      "Description": "Food",
+      "CatCode": "39",
+      "Predicate": "\"Mcc\" = 5811"
+    },
+    {
+      "Field": "beneficiary-name",
+      "Description": "Gasoline",
+      "CatCode": "4",
+      "Predicate": "LOWER(\"BeneficiaryName\") LIKE '%chevron%' OR LOWER(\"BeneficiaryName\") LIKE '%shell%'"
+    },
+    {
+      "Field": "mcc",
+      "Description": "Parking",
+      "CatCode": "5",
+      "Predicate": "\"Mcc\" = 7523"
+    },
+    {
+      "Field": "description",
+      "Description": "Internet",
+      "CatCode": "10",
+      "Predicate": "LOWER(\"Description\") LIKE '%internet%'"
+    },
+    {
+      "Field": "description",
+      "Description": "Television",
+      "CatCode": "12",
+      "Predicate": "LOWER(\"Description\") LIKE '%television%'"
+    },
+    {
+      "Field": "mcc",
+      "Description": "Car rent",
+      "CatCode": "105",
+      "Predicate": "\"Mcc\" = 7519"
+    },
+    {
+      "Field": "mcc",
+      "Description": "Computers and software",
+      "CatCode": "90",
+      "Predicate": "\"Mcc\" = 5045"
+    },
+    {
+      "Field": "mcc",
+      "Description": "Supermaket shopping",
+      "CatCode": "56",
+      "Predicate": "\"Mcc\" = 5200"
+    },
+    {
+      "Field": "mcc",
+      "Description": "Supermaket shopping",
+      "CatCode": "56",
+      "Predicate": "\"Mcc\" = 5499"
+    },
+    {
+      "Field": "mcc",
+      "Description": "Pet shops and pet food",
+      "CatCode": "84",
+      "Predicate": "\"Mcc\" = 5995"
+    },
+    {
+      "Field": "mcc",
+      "Description": "Music",
+      "CatCode": "22",
+      "Predicate": "\"Mcc\" = 5733"
+    },
+    {
+      "Field": "mcc",
+      "Description": "Hairdresser and hair styling",
+      "CatCode": "80",
+      "Predicate": "\"Mcc\" = 7230"
+    },
+    {
+      "Field": "beneficiary-name",
+      "Description": "Car leasing",
+      "CatCode": "3",
+      "Predicate": "LOWER(\"BeneficiaryName\") LIKE '%leasing%'"
+    },
+    {
+      "Field": "mcc",
+      "Description": "Tax payment",
+      "CatCode": "96",
+      "Predicate": "\"Mcc\" = 9311"
+    },
+    {
+      "Field": "description",
+      "Description": "Loans",
+      "CatCode": "77",
+      "Predicate": "LOWER(\"Description\") LIKE '%loan%'"
+    },
+    {
+      "Field": "description",
+      "Description": "Charity",
+      "CatCode": "41",
+      "Predicate": "LOWER(\"Description\") LIKE '%charity%'"
+    },
+    {
+      "Field": "description",
+      "Description": "Salary",
+      "CatCode": "62",
+      "Predicate": "LOWER(\"Description\") LIKE '%salary%'"
+    },
+    {
+      "Field": "beneficiary-name",
+      "Description": "revolut",
+      "CatCode": "25",
+      "Predicate": "LOWER(\"BeneficiaryName\") LIKE '%revolut%'"
+    },
+    {
+      "Field": "beneficiary-name",
+      "Description": "Netflix",
+      "CatCode": "12",
+      "Predicate": "LOWER(\"BeneficiaryName\") LIKE '%netflix%'"
+    }
+  ]
+  }
+

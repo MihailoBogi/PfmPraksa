@@ -20,6 +20,12 @@ namespace PersonalFinance.Infrastructure.Services
 
         public async Task<PagedResult<TransactionDto>> GetPagedAsync(TransactionQuery q)
         {
+            //clamping
+            var page = q.Page < 1 ? 1 : q.Page;
+            var pageSize = q.PageSize < 1 ? 1
+                          : q.PageSize > 100 ? 100
+                          : q.PageSize;
+
             var baseQ = _db.Transactions.AsNoTracking().Include(t => t.Splits).AsQueryable();
 
             if (q.StartDate.HasValue)
@@ -70,10 +76,10 @@ namespace PersonalFinance.Infrastructure.Services
                 _ => desc ? baseQ.OrderByDescending(t => t.Date) : baseQ.OrderBy(t => t.Date),
             };
             //ovo su main transakcije
-            var skip = (q.Page - 1) * q.PageSize;
+            var skip = (page - 1) * pageSize;
             var pageEntities = await baseQ
                 .Skip(skip)
-                .Take(q.PageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
             var items = pageEntities.Select(t => new TransactionDto

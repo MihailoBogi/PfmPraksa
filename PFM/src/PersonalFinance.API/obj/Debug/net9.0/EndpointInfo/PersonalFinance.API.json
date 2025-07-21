@@ -547,10 +547,56 @@
           }
         }
       }
+    },
+    "/transactions/auto-categorize": {
+      "post": {
+        "tags": [
+          "Transactions"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AutoCategorizationResultDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AutoCategorizationResultDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AutoCategorizationResultDto"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AutoCategorizationResultDto": {
+        "type": "object",
+        "properties": {
+          "totalCategorized": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ruleResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RuleResultDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "BusinessErrorResponse": {
         "type": "object",
         "properties": {
@@ -613,6 +659,24 @@
           }
         },
         "additionalProperties": { }
+      },
+      "RuleResultDto": {
+        "type": "object",
+        "properties": {
+          "catCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "countMatched": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
       },
       "SingleCategorySplitDto": {
         "required": [

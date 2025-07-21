@@ -17,6 +17,7 @@ namespace PersonalFinance.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasPostgresExtension("pgcrypto");
             base.OnModelCreating(modelBuilder);
 
             var directionConverter = new ValueConverter<TransactionDirection, string>(
