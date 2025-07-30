@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15       # koristiš oficijelni PostgreSQL 15 image
+    container_name: pf-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mikibogi    # zameni svojom lozinkom
+      POSTGRES_DB: PfmDB       # ime baze koju želiš
+    volumes:
+      - pf-db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"    # izloži na host 5432
+
+  api:
+    build: .                      # izgradi iz Dockerfile-a u ovom folderu
+    image: personalfinance-service:latest
+    container_name: pf-service
+    restart: on-failure
+    depends_on:
+      - db
+    environment:
+      # .NET connection string treba da pokazuje na servis 'db'
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=PfmDB;Username=postgres;Password=mikibogi"
+      ASPNETCORE_URLS: "http://+:80"
+    ports:
+      - "7019:80"    # mapira container port 80 na host port 7019
+
+volumes:
+  pf-db-data:

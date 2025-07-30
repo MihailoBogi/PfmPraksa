@@ -57,7 +57,7 @@ namespace PersonalFinance.Infrastructure.Services
                         _ => throw new BusinessException(
                                      "invalid-kind",
                                      $"'{k}' nije validna vrednost za kind",
-                                     null)
+                                     "Kind moze biti dep, dwd, pmt, fee, inc, rev, adj, lnd, lnr, fcx,aop, acl, spl, sal")
                     })
                     .ToList();
 
@@ -88,7 +88,7 @@ namespace PersonalFinance.Infrastructure.Services
                 BeneficiaryName = t.BeneficiaryName,
                 Date = t.Date.ToString("yyyy-MM-dd"),
                 Direction = t.Direction == TransactionDirection.Debit ? "d" : "c",
-                Amount = t.Amount.ToString("F2"),
+                Amount = t.Amount,
                 Description = t.Description,
                 Currency = t.Currency,
                 Mcc = t.Mcc.HasValue
@@ -176,15 +176,12 @@ namespace PersonalFinance.Infrastructure.Services
             // dir
             if (!string.IsNullOrWhiteSpace(q.Direction))
             {
-                var d = q.Direction.Trim().ToLowerInvariant();
-                if (d != "d" && d != "c" && d != "debit" && d != "credit")
-                    throw new BusinessException(
-                        "invalid-format",
-                        "Invalid direction",
-                        $"Direction '{q.Direction}' is not valid");
-                var dirEnum = (d == "d" || d == "debit")
-                            ? TransactionDirection.Debit
-                            : TransactionDirection.Credit;
+                var d = q.Direction!;               // vec je lowercase i trimovano
+                                                    // mapiraj u enum
+                var dirEnum = d == "d"
+                    ? TransactionDirection.Debit
+                    : TransactionDirection.Credit;
+
                 txs = txs.Where(t => t.Direction == dirEnum);
             }
             // ako nije proslednjena kategorija, grupise se po Parentu inace je t.Cat

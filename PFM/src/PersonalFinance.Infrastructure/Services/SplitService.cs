@@ -19,6 +19,14 @@ namespace PersonalFinance.Infrastructure.Services
 
         public async Task SplitAsync(int transactionId, IEnumerable<SingleCategorySplitDto> splits)
         {
+            var splitList = splits.ToList();//ienumerable ne podrzava uvek count
+
+            if (splitList.Count < 2)
+                throw new BusinessException(
+                    "insufficient-splits",
+                    "Not enough splits",
+                    $"Transaction must be split into at least two parts, but received {splitList.Count}.");
+
             var tx = await _db.Transactions
              .Include(t => t.Splits)
              .FirstOrDefaultAsync(t => t.Id == transactionId);

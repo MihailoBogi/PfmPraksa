@@ -28,6 +28,7 @@ builder.Services.Configure<AutoCategorizationOptions>(builder.Configuration);
 builder.Services.AddScoped<ITransactionImporter, TransactionImporter>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ICategoryImporter, CategoryImporter>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ISplitService, SplitService>();
 builder.Services.AddScoped<IAutoCategorizationService, AutoCategorizationService>();
 
@@ -35,7 +36,12 @@ builder.Services.AddControllers(options =>
 {
     options.Filters.Add<CsvValidationFilter>();
     options.Filters.Add<BusinessExceptionFilter>();
-});
+})
+    .AddJsonOptions(opts =>
+    {
+        opts.JsonSerializerOptions.PropertyNamingPolicy = new KebabCaseNamingPolicy();
+        opts.JsonSerializerOptions.DictionaryKeyPolicy = new KebabCaseNamingPolicy();
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -52,33 +58,54 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     {
         var errors = context.ModelState
             .Where(kvp => kvp.Value.Errors.Any())
-            .SelectMany(kvp => kvp.Value.Errors.Select(err => new ValidationError
+            .SelectMany(kvp => kvp.Value.Errors.Select(err =>
             {
-                Tag = kvp.Key,
-                Error = ValidationErrorCode.InvalidFormat,
-                Message = err.ErrorMessage
+                // MAPIRANJE tipa greške
+                var code = ValidationErrorCode.InvalidFormat;
+                if (err.ErrorMessage.Contains("required"))
+                    code = ValidationErrorCode.Required;
+                else if (err.ErrorMessage.Contains("between")
+                      || err.ErrorMessage.Contains("must be"))
+                    code = ValidationErrorCode.OutOfRange;
+                else if (err.Exception is FormatException)
+                    code = ValidationErrorCode.InvalidFormat;
+
+                return new ValidationError
+                {
+                    Tag = kvp.Key,
+                    Error = code,
+                    Message = err.ErrorMessage
+                };
             }))
             .ToList();
 
-        return new BadRequestObjectResult(
-            new ValidationErrorResponse { Errors = errors }
-        );
+        return new BadRequestObjectResult(new ValidationErrorResponse { Errors = errors });
     };
+});
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular", policy =>
+        policy
+            .WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+    );
 });
 
 var app = builder.Build();
 
 // middleware
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "PersonalFinance API v1");
-        // c.RoutePrefix = string.Empty;
-    });
+    var db = scope.ServiceProvider.GetRequiredService< ApplicationDbContext>();
+    db.Database.Migrate();
 }
-
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "PersonalFinance API V1");
+});
+app.UseCors("AllowAngular");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

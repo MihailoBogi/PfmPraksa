@@ -17,7 +17,7 @@ namespace PersonalFinance.Application.Contracts
         public string Direction { get; set; } = default!;
 
         [JsonPropertyName("amount")]
-        public string Amount { get; set; } = default!;
+        public decimal Amount { get; set; } = default!;
 
         [JsonPropertyName("description")]
         public string? Description { get; set; }

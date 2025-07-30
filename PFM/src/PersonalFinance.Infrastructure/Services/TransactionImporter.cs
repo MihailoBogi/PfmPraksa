@@ -174,9 +174,13 @@ namespace PersonalFinance.Infrastructure.Services
                 .Select(t => t.Id)
                 .ToListAsync();
 
+            //var duplicateIds = validEntities
+            //.Select(e => e.Id)
+            //.Intersect(existingIds)
+            //.ToList();
             var toAdd = validEntities
-                .Where(e => !existingIds.Contains(e.Id))
-                .ToList();
+            .Where(e => !existingIds.Contains(e.Id))
+            .ToList();
 
             if (!toAdd.Any())
                 throw new BusinessException(
@@ -184,7 +188,12 @@ namespace PersonalFinance.Infrastructure.Services
                     "Nema novih transakcija za import",
                     "Sve transakcije iz CSV fajla su već importovane."
                 );
-
+            //if (duplicateIds.Any())
+            //    throw new BusinessException(
+            //        "duplicate-transactions",
+            //        $"Transakcije sa ID-jevima [{string.Join(", ", duplicateIds)}] su već importovane.",
+            //        $"Obriši ili izmeni duplikate pre ponovnog importovanja."
+            //    );
             await _db.Transactions.AddRangeAsync(toAdd);
             await _db.SaveChangesAsync();
         }

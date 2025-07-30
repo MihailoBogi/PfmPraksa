@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using PersonalFinance.Application.Common;
 using PersonalFinance.Application.Contracts;
 using PersonalFinance.Application.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace PersonalFinance.API.Controllers
 {
     [ApiController]
-    [Route("transactions")]
+    [Route("")]
     public class TransactionsController : ControllerBase
     {
         private readonly ITransactionImporter _importer;
@@ -23,12 +24,12 @@ namespace PersonalFinance.API.Controllers
             _autoCategorizationService = autoCategorizationService;
         }
 
-        [HttpPost("import")]
+        [HttpPost("transactions/import")]
         [Consumes("multipart/form-data")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BusinessErrorResponse), 440)]
-        [ProducesResponseType(typeof(BusinessProblemResponse), 409)]
+        [ProducesResponseType(typeof(BusinessProblemResponse), 440)]
+       // [ProducesResponseType(typeof(BusinessProblemResponse), 400)]
         public async Task<IActionResult> Import(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -41,15 +42,15 @@ namespace PersonalFinance.API.Controllers
             await _importer.ImportAsync(file);
             return Ok();
         }
-        [HttpGet]
+        [HttpGet("transactions")]
         public async Task<IActionResult> Get(
                 [FromQuery(Name = "transaction-kind")] List<string>? kinds,
-                [FromQuery(Name = "start-date")] DateOnly? startDate,
-                [FromQuery(Name = "end-date")] DateOnly? endDate,
+                [FromQuery(Name = "start-date")][DataType(DataType.Date)] DateOnly? startDate,
+                [FromQuery(Name = "end-date")][DataType(DataType.Date)] DateOnly? endDate,
                 [FromQuery(Name = "page")] int page = 1,
-                [FromQuery(Name = "page-size")] int pageSize = 10,
+                [FromQuery(Name = "page-size")][Range(1, 100)] int pageSize = 10,
                 [FromQuery(Name = "sort-by")] string? sortBy = null,
-                [FromQuery(Name = "sort-order")] string sortOrder = "asc")
+                [FromQuery(Name = "sort-order")][RegularExpression("asc|desc")] string sortOrder = "asc")
         {
             var query = new TransactionQuery
             {
@@ -65,11 +66,11 @@ namespace PersonalFinance.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("{id}/categorize")]
+        [HttpPost("transaction/{id}/categorize")]
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        [ProducesResponseType(440)]
-        [ProducesResponseType(typeof(BusinessProblemResponse), 409)]
+       // [ProducesResponseType(440)]
+        [ProducesResponseType(typeof(BusinessProblemResponse), 440)]
         public async Task<IActionResult> Categorize([FromRoute] int id, [FromBody] TransactionCategorizeCommand cmd)
         {
             if (!ModelState.IsValid) return BadRequest(new ValidationErrorResponse { 
@@ -78,11 +79,11 @@ namespace PersonalFinance.API.Controllers
             await _service.CategorizeAsync(id, cmd.CatCode);
             return Ok();
         }
-        [HttpPost("{id}/split")]
+        [HttpPost("transaction/{id}/split")]
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(ValidationErrorResponse), 400)]
-        [ProducesResponseType(typeof(BusinessProblemResponse), 409)]
-        [ProducesResponseType(440)]
+        [ProducesResponseType(typeof(BusinessProblemResponse), 440)]
+  //      [ProducesResponseType(440)]
         public async Task<IActionResult> Split([FromRoute] int id, [FromBody] SplitTransactionCommand cmd)
             {
                 if (!ModelState.IsValid)
@@ -93,7 +94,7 @@ namespace PersonalFinance.API.Controllers
             await _splitService.SplitAsync(id, cmd.Splits);
             return Ok();
         }
-        [HttpPost("auto-categorize")]
+        [HttpPost("transaction/auto-categorize")]
         [ProducesResponseType(typeof(AutoCategorizationResultDto), 200)]
         public async Task<IActionResult> AutoCategorize()
         {

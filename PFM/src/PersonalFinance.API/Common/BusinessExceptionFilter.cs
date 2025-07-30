@@ -18,22 +18,43 @@ public class BusinessExceptionFilter : IExceptionFilter
             switch (ex.Problem)
             {
                 case "transaction-not-found":
-                    context.Result = new NotFoundObjectResult(problem);
+                    context.HttpContext.Response.Headers["x-asee-problems"] =
+                        JsonSerializer.Serialize(new[] { ex.Problem });
+                    context.Result = new ObjectResult(problem) { StatusCode = 440 };
                     break;
 
                 case "provided-category-does-not-exist":
+                    context.HttpContext.Response.Headers["x-asee-problems"] =
+                        JsonSerializer.Serialize(new[] { ex.Problem });
+                    context.Result = new ObjectResult(problem) { StatusCode = 440 };
+                    break;
                 case "split-amount-over-transaction-amount":
                     context.HttpContext.Response.Headers["x-asee-problems"] =
                         JsonSerializer.Serialize(new[] { ex.Problem });
                     context.Result = new ObjectResult(problem) { StatusCode = 440 };
                     break;
-                case "task-already-claimed":
+                case "insufficient-splits":
                     context.HttpContext.Response.Headers["x-asee-problems"] =
                         JsonSerializer.Serialize(new[] { ex.Problem });
-                    context.Result = new ObjectResult(problem)
-                    {
-                        StatusCode = StatusCodes.Status409Conflict
-                    }; break;
+                    context.Result = new ObjectResult(problem) { StatusCode = 440 };
+                    break;
+                //case "duplicate-transactions":
+                //    context.HttpContext.Response.Headers["x-asee-problems"] =
+                //        JsonSerializer.Serialize(new[] { ex.Problem });
+                //    context.Result = new ObjectResult(problem) { StatusCode = 440 };
+                //    break;
+                case "no-new-transactions":
+                    context.HttpContext.Response.Headers["x-asee-problems"] =
+                        JsonSerializer.Serialize(new[] { ex.Problem });
+                    context.Result = new ObjectResult(problem) { StatusCode = 440 };
+                    break;
+                //case "task-already-claimed":
+                //    context.HttpContext.Response.Headers["x-asee-problems"] =
+                //        JsonSerializer.Serialize(new[] { ex.Problem });
+                //    context.Result = new ObjectResult(problem)
+                //    {
+                //        StatusCode = StatusCodes.Status409Conflict
+                //    }; break;
                 default:
                     context.HttpContext.Response.Headers["x-asee-problems"] =
                         JsonSerializer.Serialize(new[] { ex.Problem });

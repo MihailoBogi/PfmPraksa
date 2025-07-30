@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using PersonalFinance.Application.Common;
 using PersonalFinance.Application.Contracts;
 using PersonalFinance.Application.Interfaces;
+using PersonalFinance.Domain.Entities;
 
 namespace PersonalFinance.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("spending-analytics")]
     [ApiController]
     public class SpendingAnalyticsController : ControllerBase
     {
@@ -25,15 +26,40 @@ namespace PersonalFinance.API.Controllers
                                          [FromQuery(Name = "end-date")] DateTime? end,
                                          [FromQuery(Name = "direction")] string? dir)
         {
+            if (!string.IsNullOrWhiteSpace(dir))
+            {
+                var d = dir.Trim().ToLowerInvariant();
+                if (d != "d" && d != "c")
+                {
+                    ModelState.AddModelError(
+                        "direction",
+                        "Direction must be 'd' or 'c'");
+                }
+                dir = d;
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(new ValidationErrorResponse { Errors = ModelStateErrors(ModelState) });
+
             var q = new SpendingAnalyticsQuery
             {
                 CategoryCode = catcode,
                 StartDate = start is null ? null : DateOnly.FromDateTime(start.Value),
                 EndDate = end is null ? null : DateOnly.FromDateTime(end.Value),
-                Direction = dir?.Trim()
+                Direction = dir
             };
             var result = await _service.GetSpendingsByCategoryAsync(q);
             return Ok(result);
         }
+        private static List<ValidationError> ModelStateErrors(ModelStateDictionary ms) =>
+        ms.Where(kvp => kvp.Value.Errors.Any())
+          .SelectMany(kvp => kvp.Value.Errors
+            .Select(err => new ValidationError
+            {
+                Tag = kvp.Key,
+                Error = ValidationErrorCode.InvalidFormat,
+                Message = err.ErrorMessage
+            }))
+          .ToList();
     }
 }
