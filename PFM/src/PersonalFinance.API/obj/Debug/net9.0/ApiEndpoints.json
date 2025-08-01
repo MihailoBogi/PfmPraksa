@@ -8,7 +8,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "parent-id",
+        "Name": "parent-code",
         "Type": "System.String",
         "IsRequired": false
       }

@@ -40,7 +40,7 @@ namespace PersonalFinance.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(CategoryDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetCategories([FromQuery(Name = "parent-id")] string? parentId)
+        public async Task<IActionResult> GetCategories([FromQuery(Name = "parent-code")] string? parentId)
         {
             try
             {

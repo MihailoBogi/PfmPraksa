@@ -85,7 +85,7 @@
         ],
         "parameters": [
           {
-            "name": "parent-id",
+            "name": "parent-code",
             "in": "query",
             "schema": {
               "type": "string"

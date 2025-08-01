@@ -26,7 +26,7 @@ namespace PersonalFinance.Infrastructure.Services
                           : q.PageSize > 100 ? 100
                           : q.PageSize;
 
-            var baseQ = _db.Transactions.AsNoTracking().Include(t => t.Splits).AsQueryable();
+            var baseQ = _db.Transactions.AsNoTracking().Include(t => t.Splits).AsQueryable();//ukljucen i split 
 
             if (q.StartDate.HasValue)
                 baseQ = baseQ.Where(t => t.Date >= q.StartDate.Value.ToDateTime(TimeOnly.MinValue));
@@ -82,7 +82,7 @@ namespace PersonalFinance.Infrastructure.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            var items = pageEntities.Select(t => new TransactionDto
+            var items = pageEntities.Select(t => new TransactionDto //sve je rucno, nista auto
             {
                 Id = t.Id.ToString(),
                 BeneficiaryName = t.BeneficiaryName,
@@ -120,7 +120,6 @@ namespace PersonalFinance.Infrastructure.Services
                 }).ToList()
             }).ToList();
 
-            // vrati PagedResult preko object‐initializer
             return new PagedResult<TransactionDto>
             {
                 TotalCount = total,
@@ -177,7 +176,7 @@ namespace PersonalFinance.Infrastructure.Services
             if (!string.IsNullOrWhiteSpace(q.Direction))
             {
                 var d = q.Direction!;               // vec je lowercase i trimovano
-                                                    // mapiraj u enum
+                                                    
                 var dirEnum = d == "d"
                     ? TransactionDirection.Debit
                     : TransactionDirection.Credit;

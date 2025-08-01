@@ -23,9 +23,9 @@ namespace PersonalFinance.Infrastructure.Services
             {
                 errors.Add(new ValidationError
                 {
-                    Tag = "parent-id",
+                    Tag = "parent-code",
                     Error = ValidationErrorCode.MaxLength,
-                    Message = $"Given parent-id '{parentCode}' exceeds 20 characters."
+                    Message = $"Given parent-code '{parentCode}' exceeds 20 characters."
                 });
             }
             if (errors.Any())
@@ -33,16 +33,26 @@ namespace PersonalFinance.Infrastructure.Services
                 throw new ValidationException(errors);
             }
 
-            var categories = await _db.Categories
-                .Where(c => c.ParentCode == parentCode)
-                .Select(c => new CategoryDto
-                {
-                    Code = c.Code,
-                    Name = c.Name,
-                    ParentCode = c.ParentCode
-                })
-                .ToListAsync();
+            //var categories = await _db.Categories
+            //    .Where(c => c.ParentCode == parentCode)
+            //    .Select(c => new CategoryDto
+            //    {
+            //        Code = c.Code,
+            //        Name = c.Name,
+            //        ParentCode = c.ParentCode
+            //    })
+            //    .ToListAsync();
 
+            //return categories;
+            var query = _db.Categories.AsQueryable();
+            if (!string.IsNullOrEmpty(parentCode))
+                query = query.Where(c => c.ParentCode == parentCode);
+
+            var categories = await query
+              .Select(c => new CategoryDto { 
+                    Code = c.Code, Name = c.Name,ParentCode = c.ParentCode
+              })
+              .ToListAsync();
             return categories;
         }
     }

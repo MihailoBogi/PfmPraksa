@@ -61,7 +61,7 @@ namespace PersonalFinance.Infrastructure.Services
             }
 
             var totalSplit = splits.Sum(s => s.Amount);
-            if (totalSplit > tx.Amount)
+            if (totalSplit != tx.Amount)
                 throw new BusinessException(
                     "split-amount-over-transaction-amount",
                     "Split amount is larger then transaction amount",
